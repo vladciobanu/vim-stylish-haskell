@@ -12,8 +12,8 @@ endif
 
 function! s:OverwriteBuffer(output)
   let winview = winsaveview()
-  silent! undojoin
   if !exists("g:stylish_haskell_dont_override")
+    silent! undojoin
     normal! gg"_dG
     call append(0, split(a:output, '\v\n'))
     normal! G"_dd
@@ -39,6 +39,7 @@ function! s:RunStylishHaskell()
     echom output
   elseif empty(errors)
     call s:OverwriteBuffer(output)
+    write
   else
     echom errors
   endif

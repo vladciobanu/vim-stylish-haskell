@@ -38,12 +38,8 @@ function! s:RunStylishHaskell()
   if v:shell_error != 0
     echom output
   elseif empty(errors)
-    if !exists("g:stylish_haskell_dont_override")
-      call s:OverwriteBuffer(output)
-      write
-    else
-      echom "Done."
-    endif
+    call s:OverwriteBuffer(output)
+    write
   else
     echom errors
   endif

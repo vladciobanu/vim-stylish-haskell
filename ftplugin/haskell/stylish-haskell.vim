@@ -10,7 +10,7 @@ if !exists("g:stylish_haskell_options")
   let g:stylish_haskell_options = [ ]
 endif
 
-function! s:OverwriteBuffer(output)
+function! __OverwriteBuffer(output)
   let winview = winsaveview()
   if !exists("g:stylish_haskell_dont_override")
     silent! undojoin
@@ -23,22 +23,22 @@ function! s:OverwriteBuffer(output)
   call winrestview(winview)
 endfunction
 
-function! s:StylishHaskell()
+function! __StylishHaskell()
   if executable(split(g:stylish_haskell_command)[0])
-    call s:RunStylishHaskell()
+    call __RunStylishHaskell()
   elseif !exists("s:exec_warned")
     let s:exec_warned = 1
     echom "stylish-haskell executable not found"
   endif
 endfunction
 
-function! s:RunStylishHaskell()
+function! __RunStylishHaskell()
   let output = system(g:stylish_haskell_command . " " . join(g:stylish_haskell_options, ' ') . " " . bufname("%"))
   let errors = matchstr(output, '\(Language\.Haskell\.Stylish\.Parse\.parseModule:[^\x0]*\)')
   if v:shell_error != 0
     echom output
   elseif empty(errors)
-    call s:OverwriteBuffer(output)
+    call __OverwriteBuffer(output)
     write
   else
     echom errors
@@ -47,5 +47,5 @@ endfunction
 
 augroup stylish-haskell
   autocmd!
-  autocmd BufWritePost *.hs call s:StylishHaskell()
+  autocmd BufWritePost *.hs call __StylishHaskell()
 augroup END

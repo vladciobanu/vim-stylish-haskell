@@ -13,9 +13,13 @@ endif
 function! s:OverwriteBuffer(output)
   let winview = winsaveview()
   silent! undojoin
-  normal! gg"_dG
-  call append(0, split(a:output, '\v\n'))
-  normal! G"_dd
+  if !exists("g:stylish_haskell_dont_override")
+    normal! gg"_dG
+    call append(0, split(a:output, '\v\n'))
+    normal! G"_dd
+  else
+    edit
+  endif
   call winrestview(winview)
 endfunction
 

@@ -18,7 +18,7 @@ function! s:OverwriteBuffer(output)
     call append(0, split(a:output, '\v\n'))
     normal! G"_dd
   else
-    edit
+    silent! edit
   endif
   call winrestview(winview)
 endfunction
@@ -47,5 +47,5 @@ endfunction
 
 augroup stylish-haskell
   autocmd!
-  autocmd BufWritePost *.hs silent! call s:StylishHaskell()
+  autocmd BufWritePost *.hs call s:StylishHaskell()
 augroup END

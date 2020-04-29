@@ -39,7 +39,6 @@ function! s:RunStylishHaskell()
     echom output
   elseif empty(errors)
     call s:OverwriteBuffer(output)
-    write
   else
     echom errors
   endif
